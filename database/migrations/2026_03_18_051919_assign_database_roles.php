@@ -40,9 +40,9 @@ return new class extends Migration
     public function down(): void
     {
         // Always Revoke Reversely
-        DB::statement('REVOKE EXECUTE ON FUNCTION get_current_company_id() FROM coi-maxxing-app;');
-        DB::statement('REVOKE SELECT ON jobs, failed_jobs FROM coi-maxxing-app;');
-        DB::statement('REVOKE SELECT, INSERT, UPDATE, DELETE ON companies, users, subcontractors, documents, upload_requests, document_events FROM coi-maxxing-app;');
-        DB::statement('REVOKE USAGE ON SCHEMA public FROM coi-maxxing-app;');
+        DB::statement('REVOKE EXECUTE ON FUNCTION get_current_company_id() FROM "coi-maxxing-app";');
+        DB::statement('REVOKE SELECT ON jobs, failed_jobs FROM "coi-maxxing-app";');
+        DB::statement('REVOKE SELECT, INSERT, UPDATE, DELETE ON companies, users, subcontractors, documents, upload_requests, document_events FROM "coi-maxxing-app";');
+        DB::statement('REVOKE USAGE ON SCHEMA public FROM "coi-maxxing-app";');
     }
 };

@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth; // laravel's built-in auth features
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
 
@@ -22,17 +23,10 @@ class AuthController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        // this will start a web session and creates a session cookies
-        // in which it can wastes server memory
-        /* if (! Auth::attempt($credentials)) {
-            // generic error to prevent user enumeration
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
-        } */
-
         // stateless authentication
-        $user = User::where('email', $request->email)->first();
+        $user = User::withoutGlobalScope('company')
+                    ->where('email', $request->email)
+                    ->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
@@ -40,8 +34,11 @@ class AuthController extends Controller
             ]);
         }
 
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
+        // set RLS company context so the companies table is readable
+        if ($user->company_id) {
+            DB::statement("SELECT set_config('app.current_company_id', ?, false)", [$user->company_id]);
+        }
+
         // load their company
         $user->load('company');
 
