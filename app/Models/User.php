@@ -2,17 +2,22 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Traits\BelongsToCompany;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens, HasUuids, BelongsToCompany;
+
+
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -20,9 +25,11 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'company_id', // allowed for seeding only
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -44,7 +51,13 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'created_at' => 'datetime',
         ];
+    }
+
+    // get the company this user belongs to
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'company_id', 'id');
     }
 }
