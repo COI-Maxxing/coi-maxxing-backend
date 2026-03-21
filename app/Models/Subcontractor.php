@@ -13,6 +13,8 @@ class Subcontractor extends Model
 {
     use HasFactory, HasUuids, BelongsToCompany;
 
+    public $keyType = 'string';
+    public $incrementing = false;
     // this model should not be timestamped
     public $timestamps = false;
 
@@ -24,9 +26,12 @@ class Subcontractor extends Model
         'contact_phone'
     ];
 
-    protected $casts = [
-        'created_at' => 'datetime'
-    ];
+    protected function casts(): array
+    {
+        return [
+            'created_at' => 'immutable_datetime'
+        ];
+    }
 
     // get the company that owns this subcontractor
     public function company(): BelongsTo

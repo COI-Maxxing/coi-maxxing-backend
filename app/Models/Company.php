@@ -21,9 +21,12 @@ class Company extends Model
     ];
 
     // attributes that must be cast
-    protected $casts = [
-        'created_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'created_at' => 'immutable_datetime',
+        ];
+    }
 
     // get all users belonging to this company
     public function users(): HasMany
