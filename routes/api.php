@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\SubcontractorController;
+use App\Http\Middleware\SetRLSContext;
 
 // auth endpoints
 Route::prefix('auth')->group(function () {
@@ -20,7 +21,7 @@ Route::prefix('auth')->group(function () {
     });
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->middleware(SetRLSContext::class)->group(function () {
     // subcontractor endpoints
     Route::prefix('subcontractors')->group(function () {
         Route::get('/', [SubcontractorController::class, 'index']);
