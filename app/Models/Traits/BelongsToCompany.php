@@ -15,7 +15,7 @@ trait BelongsToCompany
         // for reading
         static::addGlobalScope('company', function (Builder $builder) {
             // only apply the scope if the user is authenticated
-            if (Auth::guard('sanctum')->check())
+            if (Auth::hasUser())
             {
                 $builder->where(
                     $builder->getModel()->getTable() . '.company_id',
@@ -27,7 +27,7 @@ trait BelongsToCompany
         // for writing in the database
         static::creating(function (Model $model) {
             // automatically set the company id from the authenticated user
-            if (Auth::guard('sanctum')->check() && empty($model->company_id)) {
+            if (Auth::hasUser() && empty($model->company_id)) {
                 $model->company_id = Auth::guard('sanctum')->user()->company_id;
             }        
         });
