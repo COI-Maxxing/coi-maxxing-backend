@@ -35,8 +35,8 @@ return new class extends Migration
             $table->index(['status', 'expiry_date']); // nightly expiry cron
         });
 
-        DB::statement("ALTER TABLE documents ADD CONSTRAINT check_document_type CHECK (document_type IN ('coi', 'licencse', 'w9'))");
-        DB::statement("ALTER TABLE documents ADD CONSTRAINT check_status CHECK (status IN ('pending', 'pending_review', 'valid', 'expiring_soon', 'expired', 'rejected'))");
+        DB::statement("ALTER TABLE documents ADD CONSTRAINT check_document_type CHECK (document_type IN ('coi', 'license', 'w9'))");
+        DB::statement("ALTER TABLE documents ADD CONSTRAINT check_status CHECK (status IN ('pending', 'pending_review', 'valid', 'expiring_soon', 'extracted', 'expired', 'rejected'))");
         DB::statement("ALTER TABLE documents ADD CONSTRAINT check_coverage_amount CHECK (coverage_amount > 0)");
 
         DB::statement("

@@ -5,15 +5,6 @@ use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
-    /**
-     * During login, app.current_company_id is NOT set (because no one is
-     * authenticated yet). The existing RLS policy "users_select_same_company"
-     * requires company_id = get_current_company_id(), which returns NULL —
-     * so every SELECT returns 0 rows for the "coi-maxxing-app" role.
-     *
-     * This migration adds a SELECT policy that allows reading users
-     * when no company context has been set (i.e. during authentication).
-     */
     public function up(): void
     {
         DB::unprepared("

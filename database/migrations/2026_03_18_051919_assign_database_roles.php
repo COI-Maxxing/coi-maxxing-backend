@@ -15,7 +15,7 @@ return new class extends Migration
             DO $$
             BEGIN
                 IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'coi-maxxing-app') THEN
-                    CREATE ROLE \"coi-maxxing-app\" WITH LOGIN PASSWORD 'coimaxxing092125773711';
+                    CREATE ROLE \"coi-maxxing-app\" WITH LOGIN PASSWORD 'secret_password_lol';
                 END IF;
             END
             $$;
