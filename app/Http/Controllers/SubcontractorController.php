@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreDocumentRequest;
+use App\Http\Requests\StoreSubcontractorRequest;
 use App\Models\Subcontractor;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -19,7 +19,7 @@ class SubcontractorController extends Controller
         ]);
     }
 
-    public function store(StoreDocumentRequest $request): JsonResponse
+    public function store(StoreSubcontractorRequest $request): JsonResponse
     {
         $subcontractors = Subcontractor::create($request->validated());
 

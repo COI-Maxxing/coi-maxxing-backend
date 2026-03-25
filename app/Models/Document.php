@@ -15,7 +15,6 @@ class Document extends Model
 
     public $keyType = 'string';
     public $incrementing = false;
-    public $timestamps = false;
 
     public $fillable = [
         'subcontractor_id',

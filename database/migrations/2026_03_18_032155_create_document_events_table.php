@@ -25,7 +25,7 @@ return new class extends Migration
             $table->index('company_id'); // rls evaluation on every read
         });
 
-        DB::statement("ALTER TABLE document_events ADD CONSTRAINT check_event_type CHECK (event_type IN ('uploaded', 'extraction_started', 'validated', 'rejected', 'expiring_soon', 'expired', 'update_requested'))");
+        DB::statement("ALTER TABLE document_events ADD CONSTRAINT check_event_type CHECK (event_type IN ('uploaded', 'extraction_started', 'validated', 'extracted', 'rejected', 'expiring_soon', 'expired', 'update_requested'))");
 
     }
 

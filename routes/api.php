@@ -21,7 +21,7 @@ Route::prefix('auth')->group(function () {
     });
 });
 
-Route::middleware('auth:sanctum')->middleware(SetRLSContext::class)->group(function () {
+Route::middleware('auth:sanctum', SetRLSContext::class)->group(function () {
     // subcontractor endpoints
     Route::prefix('subcontractors')->group(function () {
         Route::get('/', [SubcontractorController::class, 'index']);

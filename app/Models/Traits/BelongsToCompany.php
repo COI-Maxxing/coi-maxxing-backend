@@ -19,7 +19,7 @@ trait BelongsToCompany
             {
                 $builder->where(
                     $builder->getModel()->getTable() . '.company_id',
-                    Auth::guard('sanctum')->user()->company_id
+                    Auth::user()->company_id
                 );
             }
         });
@@ -28,7 +28,7 @@ trait BelongsToCompany
         static::creating(function (Model $model) {
             // automatically set the company id from the authenticated user
             if (Auth::hasUser() && empty($model->company_id)) {
-                $model->company_id = Auth::guard('sanctum')->user()->company_id;
+                $model->company_id = Auth::user()->company_id;
             }        
         });
     }

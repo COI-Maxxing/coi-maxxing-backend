@@ -14,10 +14,10 @@ class SetRLSContext
     {
         if(Auth::check())
         {
-            DB::beginTransaction();
-
+            // Set the session variable at SESSION level (false), not transaction level (true)
+            // This ensures RLS policies can see it across all queries
             DB::statement("
-                SELECT set_config('app.current_company_id', ?, true )
+                SELECT set_config('app.current_company_id', ?, false)
             ", [Auth::user()->company_id]);
         }
 

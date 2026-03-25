@@ -13,16 +13,19 @@ class AuthSeeder extends Seeder
     public function run(): void
     {
         // Create a test company (or retrieve if it already exists)
-        $company = Company::firstOrCreate(
-            ['name' => 'ABC Construction'],
-            ['name' => 'ABC Construction'] // only 'name' is fillable; created_at will be set automatically
+        $companyA = Company::firstOrCreate(
+            ['name' => 'ABC Construction']
+        );
+
+        $companyB = Company::firstOrCreate(
+            ['name' => 'XYZ Builders']
         );
 
         // Create an admin user for the company
         User::firstOrCreate(
             ['email' => 'admin@abcconstruction.com'],
             [
-                'company_id' => $company->id,
+                'company_id' => $companyA->id,
                 'name'       => 'Alice Admin',
                 'email'      => 'admin@abcconstruction.com',
                 'password'   => Hash::make('password'),
@@ -34,7 +37,7 @@ class AuthSeeder extends Seeder
         User::firstOrCreate(
             ['email' => 'pm@abcconstruction.com'],
             [
-                'company_id' => $company->id,
+                'company_id' => $companyB->id,
                 'name'       => 'Pete Manager',
                 'email'      => 'pm@abcconstruction.com',
                 'password'   => Hash::make('password'),
