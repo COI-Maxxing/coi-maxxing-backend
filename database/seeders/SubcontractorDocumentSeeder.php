@@ -65,5 +65,7 @@ class SubcontractorDocumentSeeder extends Seeder
             'business_name'  => 'Zephyr Plumbing',
             'contact_email'  => 'zephyr@example.com',
         ]);
+
+        $this->command->info("Subcontractor and Document Seeded Successfully.");
     }
 }
