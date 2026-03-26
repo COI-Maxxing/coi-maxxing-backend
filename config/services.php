@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    // FastAPI Service
+    'fastapi' => [
+        'url' => env('FASTAPI_URL'),
+        'webhook_secret' => env('FASTAPI_WEBHOOK_SECRET')
+    ],
 ];

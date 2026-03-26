@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\SubcontractorController;
+use App\Http\Controllers\WebhookController;
 use App\Http\Middleware\SetRLSContext;
+use App\Http\Middleware\VerifyWebhookSignature;
 
 // auth endpoints
 Route::prefix('auth')->group(function () {
@@ -39,3 +41,6 @@ Route::middleware('auth:sanctum', SetRLSContext::class)->group(function () {
         Route::patch('/{id}/reject', [DocumentController::class, 'reject']);
     });
 });
+
+// WebHook Endpoint
+Route::post('/webhooks/extraction', [WebhookController::class, 'handleExtraction'])->middleware(VerifyWebhookSignature::class);

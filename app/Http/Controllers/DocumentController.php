@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDocumentRequest;
 use App\Http\Requests\ValidateDocumentRequest;
+use App\Jobs\ProcessDocumentJob;
 use App\Models\Subcontractor;
 use App\Models\Document;
 use Illuminate\Http\JsonResponse;
@@ -33,7 +34,8 @@ class DocumentController extends Controller
             actor: auth('sanctum')->user()->email,
         );
 
-        // in day 6 we will dispatch the job for processing the document
+        ProcessDocumentJob::dispatch($document);        
+
         return response()->json([
             'data' => $document
         ], 201);
