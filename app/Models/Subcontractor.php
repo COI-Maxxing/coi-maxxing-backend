@@ -16,7 +16,7 @@ class Subcontractor extends Model
     public $keyType = 'string';
     public $incrementing = false;
     // this model should not be timestamped
-    public $timestamps = false;
+    const UPDATED_AT = null;
 
     protected $fillable = [
         'company_id', // allowed for seeding only

@@ -20,12 +20,12 @@ class VerifyWebhookSignature
 
         $payload = $request->getContent();
         $key = config('services.fastapi.webhook_secret');
-        $computed = hash_hmac('sha256', $payload, $key);
+        $computed = hash_hmac('sha3-512', $payload, $key);
 
         if (!hash_equals($computed, $signature)) {
             return response()->json([
-                ['error' => 'Invalid Webhook Signature']
-            ], 401);
+                'error' => 'Invalid Webhook Signature'
+                ], 401);
         }
 
         return $next($request);

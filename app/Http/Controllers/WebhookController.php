@@ -28,24 +28,26 @@ class WebhookController extends Controller
             ], 200);
         }
 
-        if ($data['status'] === 'success') {
-            $updatedData = [
-                'insurer' => $data['insurer'],
-                'policy_number' => $data['policy_number'],
-                'coverage_amount' => $data['coverage_amount'],
-                'expiry_date' => $data['expiry_date'],
-                'holder_name' => $data['holder_name'],
-                'ai_raw_response' => $data['ai_raw_response'],
-                'status' => 'pending_review'
-            ];
-            $document->update($updatedData);
-            $document->logEvent('extracted', 'system', ['model' => 'stub-v1']);
-        }
+        DB::transaction(function () use ($data, $document) {
+            if ($data['status'] === 'success') {
+                $updatedData = [
+                    'insurer' => $data['insurer'],
+                    'policy_number' => $data['policy_number'],
+                    'coverage_amount' => $data['coverage_amount'],
+                    'expiry_date' => $data['expiry_date'],
+                    'holder_name' => $data['holder_name'],
+                    'ai_raw_response' => $data['ai_raw_response'],
+                    'status' => 'pending_review'
+                ];
+                $document->update($updatedData);
+                $document->logEvent('extracted', 'system', ['model' => 'stub-v1']);
+            }
 
-        if ($data['status'] === 'failed') {
-            $document->update(['status' => 'rejected']);
-            $document->logEvent('extraction_failed', 'system', ['error' => $data['error_message'] ?? 'No error detail provided.']);
-        }
+            if ($data['status'] === 'failed') {
+                $document->update(['status' => 'rejected']);
+                $document->logEvent('extraction_failed', 'system', ['error' => $data['error_message'] ?? 'No error detail provided.']);
+            }
+        });
 
         return response()->json([
             "message" => "Webhook Processed."

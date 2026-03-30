@@ -19,7 +19,6 @@ class Document extends Model
     public $fillable = [
         'subcontractor_id',
         'document_type',
-        'status',
         'file_url',
         'uploaded_by',
         'insurer',

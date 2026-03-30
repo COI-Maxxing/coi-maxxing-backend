@@ -16,7 +16,7 @@ class DocumentController extends Controller
     {
         $subcontractor = Subcontractor::findOrFail($subcontractorId);
 
-        $documents = $subcontractor->documents()->with('events')->orderBy('created_at', 'desc')->get();
+        $documents = $subcontractor->documents()->with('events')->orderBy('created_at', 'desc')->paginate(request()->input('per_page', 25));
 
         return response()->json([
             'data' => $documents
@@ -34,7 +34,7 @@ class DocumentController extends Controller
             actor: auth('sanctum')->user()->email,
         );
 
-        ProcessDocumentJob::dispatch($document);        
+        ProcessDocumentJob::dispatch($document, $document->company_id)->afterCommit();        
 
         return response()->json([
             'data' => $document

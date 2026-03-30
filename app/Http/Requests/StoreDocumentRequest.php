@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreDocumentRequest extends FormRequest
 {
@@ -23,7 +24,7 @@ class StoreDocumentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'subcontractor_id' => ['required', 'uuid', 'exists:subcontractors,id'],
+            'subcontractor_id' => ['required', 'uuid', Rule::exists('subcontractors', 'id')->where('company_id', auth('sanctum')->user()->company_id)],
             'document_type' => ['required', 'string', 'in:coi,license,w9'],
             'file_url' => ['nullable', 'string', 'max:2000'],
             'uploaded_by' => ['nullable', 'string', 'email:rfc', 'max:255']

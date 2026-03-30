@@ -12,7 +12,7 @@ class SubcontractorController extends Controller
     public function index(Request $request): JsonResponse
     {
         // eager loading the documents associated with the subcontractor
-        $subcontractors = Subcontractor::with('documents')->get();
+        $subcontractors = Subcontractor::with('documents')->paginate($request->input('per_page', 25));
 
         return response()->json([
             'data' => $subcontractors
